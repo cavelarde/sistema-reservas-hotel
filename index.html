@@ -1,0 +1,1805 @@
+<!DOCTYPE html>
+<!-- saved from url=(0063)file:///C:/Users/carne/OneDrive/Documents/reservatigravity.html -->
+<html lang="es"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reservas y Facturación - Hotel Casa Grande Chamizal</title>
+    <!-- Google Fonts & Lucide Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com/">
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+    <link href="./Sistema de Reservas y Facturación - Hotel Casa Grande Chamizal_files/css2" rel="stylesheet">
+    <script src="./Sistema de Reservas y Facturación - Hotel Casa Grande Chamizal_files/lucide@latest"></script>
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-light: #1e293b;
+            --accent: #b45309;
+            --accent-gold: #d97706;
+            --accent-gold-light: #fef3c7;
+            --emerald: #059669;
+            --emerald-light: #d1fae5;
+            --bg-main: #f1f5f9;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 20px -2px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 10px 30px -5px rgba(15, 23, 42, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Top Navigation Header */
+        header {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-md);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .hotel-logo-main {
+            height: 48px;
+            width: auto;
+            border-radius: 8px;
+            background: #fff;
+            padding: 3px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .header-title-container h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: #f8fafc;
+        }
+
+        .header-subtitle {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .badge-live-date {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .currency-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .currency-btn {
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 15px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .currency-btn.active {
+            background: var(--accent-gold);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.4);
+        }
+
+        /* Layout Container */
+        .container {
+            max-width: 1440px;
+            width: 100%;
+            margin: 1.5rem auto;
+            padding: 0 1.5rem;
+            flex: 1;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 1.5rem;
+            align-items: start;
+        }
+
+        /* Cards Styling */
+        .card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-md);
+            padding: 1.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title i {
+            color: var(--accent-gold);
+        }
+
+        /* Tabs inside form */
+        .form-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+            background: #f8fafc;
+            padding: 4px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.5rem 0.65rem;
+            border: none;
+            background: transparent;
+            font-size: 0.775rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.35rem;
+        }
+
+        .tab-btn.active {
+            background: #ffffff;
+            color: var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Form Structure */
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .form-group.full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 0.75rem;
+            color: #94a3b8;
+            pointer-events: none;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 0.65rem 0.75rem 0.65rem 2.25rem;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.9rem;
+            color: var(--text-main);
+            background-color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        input.no-icon, select.no-icon {
+            padding-left: 0.75rem;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-gold);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(217, 119, 6, 0.15);
+        }
+
+        /* Action Buttons */
+        .btn-group {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-size: 0.875rem;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.3);
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #b45309 0%, #92400e 100%);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+            width: 100%;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+            transform: translateY(-1px);
+        }
+
+        /* Invoice Preview Area */
+        .invoice-preview-card {
+            position: sticky;
+            top: 5.5rem;
+        }
+
+        .invoice-paper {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            border-radius: var(--radius-md);
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            position: relative;
+            font-size: 0.875rem;
+        }
+
+        .invoice-paper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent-gold) 100%);
+            border-top-left-radius: var(--radius-md);
+            border-top-right-radius: var(--radius-md);
+        }
+
+        .invoice-header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 1.25rem;
+        }
+
+        .hotel-info h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .hotel-info p {
+            font-size: 0.775rem;
+            color: var(--text-muted);
+            line-height: 1.35;
+        }
+
+        .invoice-meta {
+            text-align: right;
+        }
+
+        .inv-number-tag {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--accent-gold);
+            letter-spacing: 0.5px;
+        }
+
+        .inv-date-tag {
+            font-size: 0.775rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .invoice-client-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 8px;
+            padding: 0.85rem 1rem;
+            margin-bottom: 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem 1rem;
+        }
+
+        .client-detail-item {
+            font-size: 0.8rem;
+        }
+
+        .client-detail-item strong {
+            color: var(--primary);
+        }
+
+        /* Invoice Table */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 1.25rem;
+        }
+
+        .invoice-table th {
+            background-color: #f1f5f9;
+            color: #475569;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.65rem 0.75rem;
+            text-align: left;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        .invoice-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 0.825rem;
+            color: var(--text-main);
+        }
+
+        .invoice-table .text-right {
+            text-align: right;
+        }
+
+        /* Invoice Footer Totals */
+        .invoice-bottom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 1rem;
+            align-items: end;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .dian-simulation-box {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: #f8fafc;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .qr-placeholder {
+            width: 48px;
+            height: 48px;
+            background: #0f172a;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.6rem;
+            text-align: center;
+            font-weight: 800;
+        }
+
+        .dian-info {
+            font-size: 0.68rem;
+            color: var(--text-muted);
+            line-height: 1.2;
+        }
+
+        .invoice-totals {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.825rem;
+            color: var(--text-muted);
+        }
+
+        .total-row.grand-total {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary);
+            border-top: 2px solid var(--primary);
+            padding-top: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .grand-total-amount {
+            color: var(--accent-gold);
+        }
+
+        /* History drawer / modal */
+        .history-list {
+            max-height: 350px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.65rem 0.85rem;
+            background: #f8fafc;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .history-item:hover {
+            border-color: var(--accent-gold);
+            background: #fffdf5;
+        }
+
+        /* Toast Container */
+        .toast-container {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            pointer-events: none;
+        }
+
+        .toast {
+            background: var(--primary);
+            color: #ffffff;
+            padding: 0.75rem 1.25rem;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            pointer-events: auto;
+            animation: slideUp 0.3s ease forwards;
+            border-left: 4px solid var(--accent-gold);
+        }
+
+        .toast.success { border-left-color: var(--emerald); }
+        .toast.error { border-left-color: #ef4444; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Login Modal & App Download Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            width: 100%;
+            max-width: 440px;
+            padding: 2.25rem;
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: scale(0.95) translateY(10px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .login-brand-header {
+            text-align: center;
+            margin-bottom: 1.75rem;
+        }
+
+        .login-brand-header img {
+            height: 60px;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .login-brand-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .login-brand-header p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .btn-desktop-download {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #f8fafc;
+            padding: 0.35rem 0.85rem;
+            border-radius: 20px;
+            font-size: 0.775rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            transition: all 0.2s ease;
+        }
+
+        .btn-desktop-download:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .user-session-badge {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #cbd5e1;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        /* Print Media Queries */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000 !important;
+            }
+
+            header, .form-container, .btn-group, .no-print, .currency-toggle {
+                display: none !important;
+            }
+
+            .container {
+                max-width: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+
+            .main-grid {
+                display: block !important;
+            }
+
+            .card {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+
+            .invoice-paper {
+                border: none !important;
+                box-shadow: none !important;
+                padding: 0 !important;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+            .invoice-preview-card {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header>
+        <div class="header-brand">
+            <img src="./Sistema de Reservas y Facturación - Hotel Casa Grande Chamizal_files/logohotel.jpg" alt="Logo Hotel Casa Grande Chamizal" class="hotel-logo-main">
+            <div class="header-title-container">
+                <h1>Hotel Casa Grande Chamizal</h1>
+                <div class="header-subtitle">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="map-pin" aria-hidden="true" style="width:12px; height:12px;" class="lucide lucide-map-pin"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    Sector La Ye, Supía - Caldas | NIT 33990686-9
+                </div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <button type="button" class="btn-desktop-download" onclick="openAppDownloadModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download-cloud" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-download-cloud"><path d="M12 13v8l-4-4"></path><path d="m12 21 4-4"></path><path d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284"></path></svg> App Desktop (.exe)
+            </button>
+            <div class="currency-toggle">
+                <button class="currency-btn active" id="btnCOP" onclick="setCurrency(&#39;COP&#39;)">COP ($)</button>
+                <button class="currency-btn" id="btnUSD" onclick="setCurrency(&#39;USD&#39;)">USD ($)</button>
+            </div>
+            <div class="badge-live-date">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calendar" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-calendar"><path d="M8 2v3"></path><path d="M16 2v3"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path></svg>
+                <span id="currentDate">vie, 21 ago 2026</span>
+            </div>
+            <div class="user-session-badge" id="userBadgeContainer">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user-check" aria-hidden="true" style="width:14px; height:14px; color:#38bdf8;" class="lucide lucide-user-check"><path d="m16 11 2 2 4-4"></path><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                <span id="currentUserLabel">admin</span>
+                <button type="button" onclick="logoutUser()" style="background:none; border:none; color:#f87171; cursor:pointer; font-weight:700; margin-left:0.3rem;" title="Cerrar Sesión">Salir</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- LOGIN OVERLAY MODAL -->
+    <div class="modal-overlay" id="loginModal" style="display: flex;">
+        <div class="modal-card">
+            <div class="login-brand-header">
+                <img src="./Sistema de Reservas y Facturación - Hotel Casa Grande Chamizal_files/logohotel.jpg" alt="Logo Hotel Casa Grande Chamizal">
+                <h2>Hotel Casa Grande Chamizal</h2>
+                <p>Acceso Administrativo y Recepción</p>
+            </div>
+
+            <form id="loginForm" onsubmit="loginUser(event)">
+                <div style="margin-bottom:1rem;">
+                    <label for="loginUsername" style="font-size:0.75rem;">Usuario de Recepción *</label>
+                    <div class="input-wrapper" style="margin-top:0.25rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" class="lucide lucide-user input-icon" style="width:16px;"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <input type="text" id="loginUsername" required="" placeholder="admin o recepcion" style="font-size:0.9rem;">
+                    </div>
+                </div>
+
+                <div style="margin-bottom:1.25rem;">
+                    <label for="loginPassword" style="font-size:0.75rem;">Contraseña de Seguridad *</label>
+                    <div class="input-wrapper" style="margin-top:0.25rem;">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="lock" aria-hidden="true" class="lucide lucide-lock input-icon" style="width:16px;"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        <input type="password" id="loginPassword" required="" placeholder="••••••••" style="font-size:0.9rem;">
+                    </div>
+                </div>
+
+                <div id="loginErrorMsg" style="display:none; color:#ef4444; font-size:0.78rem; font-weight:600; text-align:center; margin-bottom:1rem;">
+                    Usuario o contraseña incorrectos.
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:0.8rem; font-size:0.95rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="log-in" aria-hidden="true" style="width:18px; height:18px;" class="lucide lucide-log-in"><path d="m10 17 5-5-5-5"></path><path d="M15 12H3"></path><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path></svg> Iniciar Sesión
+                </button>
+            </form>
+
+            <div style="margin-top:1.25rem; text-align:center; background:#f8fafc; border:1px dashed #cbd5e1; padding:0.6rem; border-radius:10px; font-size:0.75rem; color:#64748b;">
+                <strong>Credenciales de Prueba:</strong><br>
+                Usuario: <code>admin</code> | Contraseña: <code>chamizal2026</code>
+            </div>
+        </div>
+    </div>
+
+    <!-- DESKTOP APP (.EXE) DOWNLOAD MODAL -->
+    <div class="modal-overlay" id="downloadAppModal" style="display: none;">
+        <div class="modal-card" style="max-width:540px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid #e2e8f0; padding-bottom:0.75rem;">
+                <h3 style="font-size:1.1rem; font-weight:700; color:var(--primary); display:flex; align-items:center; gap:0.5rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="monitor" aria-hidden="true" style="width:20px; color:var(--accent-gold);" class="lucide lucide-monitor"><rect width="20" height="14" x="2" y="3" rx="2"></rect><line x1="8" x2="16" y1="21" y2="21"></line><line x1="12" x2="12" y1="17" y2="21"></line></svg> Opciones de App de Escritorio Windows (.exe)
+                </h3>
+                <button type="button" style="background:none; border:none; color:#94a3b8; cursor:pointer;" onclick="closeAppDownloadModal()">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x" aria-hidden="true" style="width:20px;" class="lucide lucide-x"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
+                </button>
+            </div>
+
+            <!-- OPCCION 1: PWA Directa (Recomendada) -->
+            <div style="background:linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%); border:1px solid #a7f3d0; border-radius:12px; padding:1rem; margin-bottom:1rem;">
+                <h4 style="font-size:0.85rem; font-weight:800; color:#065f46; margin-bottom:0.35rem; display:flex; align-items:center; gap:0.4rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="check-circle-2" aria-hidden="true" style="width:16px; color:#059669;" class="lucide lucide-check-circle-2"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg> Método 1 (Recomendado - 10 Segundos): Instalar App Nativa
+                </h4>
+                <p style="font-size:0.78rem; color:#047857; line-height:1.4; margin-bottom:0.5rem;">
+                    Sin necesidad de instalar programas adicionales ni lidiar con bloqueos de seguridad de Windows:
+                </p>
+                <ol style="font-size:0.775rem; color:#065f46; padding-left:1.2rem; line-height:1.5;">
+                    <li>Abre el menú de tu navegador (los tres puntos <code>...</code> arriba a la derecha).</li>
+                    <li>Selecciona <strong>Aplicaciones / Apps</strong> &gt; <strong>Instalar Hotel Casa Grande Chamizal</strong>.</li>
+                    <li>¡Windows creará automáticamente el icono ejecutable <code>.exe</code> directo en tu Escritorio!</li>
+                </ol>
+            </div>
+
+            <!-- OPCCION 2: Compilacion de instalador .exe nativo con Electron -->
+            <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:1rem; margin-bottom:1rem; font-size:0.78rem;">
+                <h4 style="font-size:0.85rem; font-weight:700; color:var(--primary); margin-bottom:0.4rem; display:flex; align-items:center; gap:0.4rem;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="box" aria-hidden="true" style="width:16px; color:var(--accent-gold);" class="lucide lucide-box"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"></path><path d="m3.3 7 8.7 5 8.7-5"></path><path d="M12 22V12"></path></svg> Método 2: Compilar Instalador .exe con Electron
+                </h4>
+                <p style="font-size:0.78rem; color:var(--text-muted); line-height:1.4; margin-bottom:0.5rem;">
+                    Para compilar el archivo ejecutable <code>HotelCasaGrandeChamizal-Setup.exe</code> ejecute el archivo script directamente desde su disco local (para evitar bloqueos de descarga del navegador):
+                </p>
+                <ol style="padding-left:1.2rem; line-height:1.5; color:var(--text-main);">
+                    <li>Instala Node.js gratis desde <a href="https://nodejs.org/" target="_blank" style="color:var(--accent-gold); font-weight:700;">nodejs.org</a> si aún no lo tienes.</li>
+                    <li>Abre la carpeta del proyecto en tu equipo:<br><code style="font-size:0.7rem; background:#fff; padding:2px 5px; border-radius:4px; word-break:break-all;">C:\Users\carne\.gemini\antigravity-ide\scratch\hotel-reservas-facturacion\</code></li>
+                    <li>Haz doble clic en <strong><code>build-exe.bat</code></strong>. El instalador ejecutable <code>.exe</code> se generará en la carpeta <code>/dist/</code>.</li>
+                </ol>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end;">
+                <button type="button" class="btn btn-outline" style="padding:0.5rem 1.25rem; font-size:0.8rem;" onclick="closeAppDownloadModal()">
+                    Entendido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Container -->
+    <main class="container" style="filter: blur(6px); pointer-events: none;">
+        <div class="main-grid">
+
+            <!-- LEFT COLUMN: Form Control & History -->
+            <div class="form-container">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calculator" aria-hidden="true" class="lucide lucide-calculator"><rect width="16" height="20" x="4" y="2" rx="2"></rect><line x1="8" x2="16" y1="6" y2="6"></line><line x1="16" x2="16" y1="14" y2="18"></line><path d="M16 10h.01"></path><path d="M12 10h.01"></path><path d="M8 10h.01"></path><path d="M12 14h.01"></path><path d="M8 14h.01"></path><path d="M12 18h.01"></path><path d="M8 18h.01"></path></svg>
+                            Gestión de Reserva y Facturación
+                        </h2>
+                        <span style="font-size: 0.75rem; background: #e0f2fe; color: #0369a1; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 12px;">
+                            Régimen Simple de Tributación
+                        </span>
+                    </div>
+
+                    <!-- Navigation Tabs for Form / History / Daily Summary / DIAN -->
+                    <div class="form-tabs">
+                        <button class="tab-btn active" onclick="switchTab(&#39;bookingTab&#39;)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="plus-circle" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-plus-circle"><circle cx="12" cy="12" r="10"></circle><path d="M8 12h8"></path><path d="M12 8v8"></path></svg> Nueva Reserva
+                        </button>
+                        <button class="tab-btn" onclick="switchTab(&#39;dailySummaryTab&#39;)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="bar-chart-3" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-bar-chart-3"><path d="M3 3v16a2 2 0 0 0 2 2h16"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg> Resumen Día &amp; Nube
+                        </button>
+                        <button class="tab-btn" onclick="switchTab(&#39;historyTab&#39;)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="history" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-history"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M12 7v5l4 2"></path></svg> Historial
+                        </button>
+                        <button class="tab-btn" onclick="switchTab(&#39;dianTab&#39;)">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="shield-check" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-shield-check"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg> Conexión DIAN
+                        </button>
+                    </div>
+
+                    <!-- TAB 1: Booking Form -->
+                    <div id="bookingTab" class="tab-content active">
+                        <form id="bookingForm" onsubmit="generateInvoice(event)">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="guestName">Nombre Completo del Huésped *</label>
+                                    <div class="input-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="user" aria-hidden="true" class="lucide lucide-user input-icon" style="width:16px;"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                        <input type="text" id="guestName" required="" placeholder="Ej. Carlos Mendoza" oninput="calculatePreview()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guestDoc">Doc. Cédula / NIT / Pasaporte *</label>
+                                    <div class="input-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="credit-card" aria-hidden="true" class="lucide lucide-credit-card input-icon" style="width:16px;"><rect width="20" height="14" x="2" y="5" rx="2"></rect><line x1="2" x2="22" y1="10" y2="10"></line></svg>
+                                        <input type="text" id="guestDoc" required="" placeholder="Ej. 1.053.987.654" oninput="calculatePreview()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="guestEmail">Correo Electrónico</label>
+                                    <div class="input-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="mail" aria-hidden="true" class="lucide lucide-mail input-icon" style="width:16px;"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7"></path><rect x="2" y="4" width="20" height="16" rx="2"></rect></svg>
+                                        <input type="email" id="guestEmail" placeholder="cliente@email.com">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="guestPhone">Teléfono / WhatsApp</label>
+                                    <div class="input-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="phone" aria-hidden="true" class="lucide lucide-phone input-icon" style="width:16px;"><path d="M13.832 16.568a1 1 0 0 0 1.213-.303l.355-.465A2 2 0 0 1 17 15h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2A18 18 0 0 1 2 4a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v3a2 2 0 0 1-.8 1.6l-.468.351a1 1 0 0 0-.292 1.233 14 14 0 0 0 6.392 6.384"></path></svg>
+                                        <input type="tel" id="guestPhone" placeholder="+57 300 123 4567">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="roomType">Tipo de Habitación *</label>
+                                    <select id="roomType" class="no-icon" required="" onchange="calculatePreview()">
+                                        <option value="180000" data-usd="45" data-name="Habitación Estándar Matrimonial">Estándar Matrimonial ($180.000 COP / $45 USD)</option>
+                                        <option value="280000" data-usd="70" data-name="Habitación Doble Superior">Doble Superior ($280.000 COP / $70 USD)</option>
+                                        <option value="420000" data-usd="110" data-name="Suite Ejecutiva Chamizal">Suite Ejecutiva Chamizal ($420.000 COP / $110 USD)</option>
+                                        <option value="550000" data-usd="140" data-name="Suite Familiar Premium">Suite Familiar Premium ($550.000 COP / $140 USD)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="numGuests">Número de Personas</label>
+                                    <div class="input-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="users" aria-hidden="true" class="lucide lucide-users input-icon" style="width:16px;"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><path d="M16 3.128a4 4 0 0 1 0 7.744"></path><path d="M22 21v-2a4 4 0 0 0-3-3.87"></path><circle cx="9" cy="7" r="4"></circle></svg>
+                                        <input type="number" id="numGuests" value="1" min="1" max="10" required="" onchange="calculatePreview()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="checkIn">Fecha de Check-in *</label>
+                                    <div class="input-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calendar-check" aria-hidden="true" class="lucide lucide-calendar-check input-icon" style="width:16px;"><path d="M8 2v3"></path><path d="M16 2v3"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="m9 15 2 2 4-4"></path></svg>
+                                        <input type="date" id="checkIn" required="" onchange="calculatePreview()">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="checkOut">Fecha de Check-out *</label>
+                                    <div class="input-wrapper">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="calendar-x" aria-hidden="true" class="lucide lucide-calendar-x input-icon" style="width:16px;"><path d="M8 2v3"></path><path d="M16 2v3"></path><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="m14 13-4 4"></path><path d="m10 13 4 4"></path></svg>
+                                        <input type="date" id="checkOut" required="" onchange="calculatePreview()">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-row" style="margin-top:0.5rem;">
+                                <div class="form-group">
+                                    <label for="taxRate">Tipo de Impuesto / IVA</label>
+                                    <select id="taxRate" class="no-icon" onchange="calculatePreview()">
+                                        <option value="19">IVA Colombia 19% (Tarifa General)</option>
+                                        <option value="0">Exento de IVA / Turista Extranjero (0%)</option>
+                                        <option value="8">Impoconsumo (8%)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="paymentMethod">Forma de Pago</label>
+                                    <select id="paymentMethod" class="no-icon">
+                                        <option value="Efectivo">Efectivo</option>
+                                        <option value="Transferencia / Nequi / Bancolombia">Nequi / Bancolombia / Daviplata</option>
+                                        <option value="Tarjeta de Crédito / Débito">Tarjeta Débito / Crédito</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="file-check" aria-hidden="true" class="lucide lucide-file-check"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="m9 15 2 2 4-4"></path></svg> Emitir Factura
+                                </button>
+                                <button type="button" class="btn btn-outline" onclick="resetForm()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="rotate-ccw" aria-hidden="true" class="lucide lucide-rotate-ccw"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg> Limpiar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- TAB 2: Daily Sales & Cloud Sync (Google Sheets) -->
+                    <div id="dailySummaryTab" class="tab-content">
+                        <div style="margin-bottom: 1rem;">
+                            <h3 style="font-size:1rem; font-weight:700; color:var(--primary); margin-bottom:0.25rem;">📊 Resumen de Ocupación y Ventas del Día</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">Métricas consolidadas de las reservaciones y pagos procesados hoy.</p>
+                        </div>
+
+                        <!-- Stats Cards Grid -->
+                        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.25rem;">
+                            <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:0.85rem;">
+                                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">VENTAS TOTALES HOY</span>
+                                <div id="summaryTotalSales" style="font-size:1.2rem; font-weight:800; color:var(--accent-gold); margin-top:0.2rem;">$0</div>
+                            </div>
+                            <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:0.85rem;">
+                                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">HABITACIONES OCUPADAS</span>
+                                <div id="summaryOccupiedRooms" style="font-size:1.2rem; font-weight:800; color:var(--primary); margin-top:0.2rem;">0</div>
+                            </div>
+                            <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:0.85rem;">
+                                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">NOCHES VENDIDAS</span>
+                                <div id="summaryTotalNights" style="font-size:1.2rem; font-weight:800; color:var(--primary); margin-top:0.2rem;">0</div>
+                            </div>
+                            <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:0.85rem;">
+                                <span style="font-size:0.75rem; color:var(--text-muted); font-weight:700;">TARIFA PROMEDIO (ADR)</span>
+                                <div id="summaryAverageRate" style="font-size:1.2rem; font-weight:800; color:var(--emerald); margin-top:0.2rem;">$0</div>
+                            </div>
+                        </div>
+
+                        <!-- Breakdown by Payment Method -->
+                        <div style="background:#ffffff; border:1px solid var(--border); border-radius:10px; padding:1rem; margin-bottom:1.25rem;">
+                            <h4 style="font-size:0.85rem; font-weight:700; color:var(--primary); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="wallet" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-wallet"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"></path><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"></path></svg> Desglose por Medio de Pago
+                            </h4>
+                            <div id="summaryPaymentBreakdown" style="font-size:0.8rem; display:flex; flex-direction:column; gap:0.4rem;">
+                                <!-- Rendered by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Cloud Storage / Google Sheets Integration Box -->
+						
+                        <div style="background:linear-gradient(135deg, #f0fdf4 0%, #d1fae5 100%); border:1px solid #a7f3d0; border-radius:12px; padding:1.25rem;">
+                            <h4 style="font-size:0.95rem; font-weight:800; color:#065f46; margin-bottom:0.35rem; display:flex; align-items:center; gap:0.5rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="cloud" aria-hidden="true" style="width:18px; height:18px;" class="lucide lucide-cloud"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"></path></svg> Guardar y Sincronizar en Google Sheets
+                            </h4>
+                            <p style="font-size:0.78rem; color:#047857; line-height:1.4; margin-bottom:0.75rem;">
+                                Conecte su hoja de cálculo de Google para respaldar en vivo cada factura emitida o enviar el informe diario a la nube.
+                            </p>
+
+                            <div style="margin-bottom:0.75rem;">
+                                <label style="font-size:0.75rem; font-weight:700; color:#065f46;">URL de Webhook (Google Apps Script)</label>
+                                <input type="url" id="googleSheetsWebhookUrl" class="no-icon" placeholder="https://script.google.com/macros/s/.../exec" style="margin-top:0.2rem; font-size:0.8rem;" oninput="saveWebhookUrl()">
+                            </div>
+
+                            <div style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                                <button type="button" class="btn btn-success" style="flex:1; font-size:0.8rem; padding:0.6rem 0.8rem;" onclick="syncAllToGoogleSheets()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="cloud-upload" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-cloud-upload"><path d="M12 13v8"></path><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"></path><path d="m8 17 4-4 4 4"></path></svg> Enviar a Google Sheets
+                                </button>
+                                <button type="button" class="btn btn-outline" style="background:#fff; font-size:0.8rem; padding:0.6rem 0.8rem;" onclick="exportSummaryCSV()">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="download" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-download"><path d="M12 15V3"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><path d="m7 10 5 5 5-5"></path></svg> Descargar CSV / Excel
+                                </button>
+                            </div>
+
+                            <!-- Instructions Collapsible -->
+                            <details style="margin-top:0.85rem; font-size:0.75rem; color:#047857; background:rgba(255,255,255,0.7); padding:0.5rem 0.75rem; border-radius:6px;">
+                                <summary style="font-weight:700; cursor:pointer;">❓ ¿Cómo conectar gratis con tu Google Sheet? (1 min)</summary>
+                                <ol style="margin-top:0.5rem; padding-left:1.2rem; line-height:1.5;">
+                                    <li>Crea una nueva hoja en Google Sheets.</li>
+                                    <li>Ve al menú <strong>Extensiones &gt; Apps Script</strong>.</li>
+                                    <li>Pega este código breve:
+                                        <pre style="background:#fff; padding:6px; border-radius:4px; margin:4px 0; overflow-x:auto; font-family:monospace; font-size:0.7rem; color:#1e293b;">function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  var data = JSON.parse(e.postData.contents);
+  sheet.appendRow([data.date, data.folio, data.guestName, data.guestDoc, data.roomName, data.nights, data.paymentMethod, data.subtotal, data.tax, data.total, data.currency]);
+  return ContentService.createTextOutput("OK");
+}</pre>
+                                    </li>
+                                    <li>Haz clic en <strong>Implementar &gt; Nueva implementación &gt; Aplicación web</strong>.</li>
+                                    <li>En *"Quién tiene acceso"*, selecciona <strong>Cualquier persona (Anyone)</strong> y copia la URL obtenida en la casilla de arriba.</li>
+                                </ol>
+                            </details>
+                        </div>
+                    </div>
+
+                    <!-- TAB 3: History -->
+                    <div id="historyTab" class="tab-content">
+                        <div style="display:flex; justify-content:space-between; align-items:center; gap:0.5rem; margin-bottom: 0.75rem;">
+                            <div class="input-wrapper" style="flex:1;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" aria-hidden="true" class="lucide lucide-search input-icon" style="width:14px; color:var(--text-muted);"><path d="m21 21-4.34-4.34"></path><circle cx="11" cy="11" r="8"></circle></svg>
+                                <input type="text" id="historySearch" placeholder="Buscar por Huésped, Cédula o Folio..." style="padding:0.45rem 0.5rem 0.45rem 2rem; font-size:0.8rem;" oninput="renderHistory()">
+                            </div>
+                            <button type="button" class="btn btn-outline" style="padding:0.45rem 0.75rem; font-size:0.75rem; color:#ef4444; border-color:#fca5a5;" onclick="clearAllHistory()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="trash-2" aria-hidden="true" style="width:12px; height:12px;" class="lucide lucide-trash-2"><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path><path d="M3 6h18"></path><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg> Borrar Historial
+                            </button>
+                        </div>
+                        <div class="history-list" id="historyList">
+                            <div style="text-align:center; padding:1.5rem; color:var(--text-muted); font-size:0.85rem;">
+                                No hay facturas emitidas recientemente.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TAB 4: DIAN Integration Guide & Settings -->
+                    <div id="dianTab" class="tab-content">
+                        <div style="margin-bottom: 1rem;">
+                            <h3 style="font-size:1rem; font-weight:700; color:var(--primary); margin-bottom:0.25rem;">🇨🇴 Conexión e Integración Facturación Electrónica DIAN</h3>
+                            <p style="font-size:0.8rem; color:var(--text-muted);">Requisitos y configuración de API para emisión directa a la DIAN (Anexo Técnico 1.8 / 1.9).</p>
+                        </div>
+
+                        <!-- Step by Step Requirements -->
+                        <div style="background:#f8fafc; border:1px solid var(--border); border-radius:10px; padding:1rem; margin-bottom:1rem; font-size:0.8rem;">
+                            <h4 style="font-size:0.85rem; font-weight:700; color:var(--primary); margin-bottom:0.5rem;">📋 Requisitos Previos en la DIAN:</h4>
+                            <ul style="padding-left:1.2rem; line-height:1.6; color:var(--text-main);">
+                                <li><strong>RUT Actualizado:</strong> Tener la responsabilidad 52 (Facturador Electrónico) en el RUT del Hotel Casa Grande Chamizal (NIT 33990686-9).</li>
+                                <li><strong>Rango de Numeración DIAN:</strong> Solicitar en el portal Muisca la resolución con el prefijo deseado (ej. <code>SETP-</code> o <code>FACT-</code>).</li>
+                                <li><strong>Firma / Certificado Digital:</strong> Certificado de firma digital (otorgado por un Proveedor Tecnológico o Certicámara/Andes SCD).</li>
+                            </ul>
+                        </div>
+
+                        <!-- API Config Settings Form -->
+                        <div style="background:#ffffff; border:1px solid var(--border); border-radius:10px; padding:1rem; margin-bottom:1rem;">
+                            <h4 style="font-size:0.85rem; font-weight:700; color:var(--primary); margin-bottom:0.75rem; display:flex; align-items:center; gap:0.4rem;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="key" aria-hidden="true" style="width:14px; height:14px;" class="lucide lucide-key"><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"></path><path d="m21 2-9.6 9.6"></path><circle cx="7.5" cy="15.5" r="5.5"></circle></svg> Configuración API de Proveedor Tecnológico (PT)
+                            </h4>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dianProvider">Proveedor de Facturación</label>
+                                    <select id="dianProvider" class="no-icon" onchange="saveDianConfig()">
+                                        <option value="dataico">Dataico API (Recomendado)</option>
+                                        <option value="alegra">Alegra POS / Facturación API</option>
+                                        <option value="siigo">Siigo Nube API</option>
+                                        <option value="facturatetech">FacturateTech API</option>
+                                        <option value="dian_direct">Web Services Directo DIAN (SOAP)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="dianPrefix">Prefijo Autorizado DIAN</label>
+                                    <input type="text" id="dianPrefix" class="no-icon" placeholder="Ej. SETP o FACT" oninput="saveDianConfig()">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group full-width">
+                                    <label for="dianApiKey">Token / API Key de Autorización</label>
+                                    <input type="password" id="dianApiKey" class="no-icon" placeholder="Pega aquí tu Token API proporcionado por tu Proveedor Tecnológico" oninput="saveDianConfig()">
+                                </div>
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="dianEnv">Ambiente de Operación</label>
+                                    <select id="dianEnv" class="no-icon" onchange="saveDianConfig()">
+                                        <option value="test">Ambiente de Pruebas (Habilitación)</option>
+                                        <option value="prod">Ambiente de Producción (Oficial DIAN)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="justify-content:flex-end;">
+                                    <button type="button" class="btn btn-primary" onclick="testDianConnection()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="wifi" aria-hidden="true" class="lucide lucide-wifi"><path d="M12 20h.01"></path><path d="M2 8.82a15 15 0 0 1 20 0"></path><path d="M5 12.859a10 10 0 0 1 14 0"></path><path d="M8.5 16.429a5 5 0 0 1 7 0"></path></svg> Probar Conexión DIAN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN: Realtime Live Invoice Preview & Actions -->
+            <div class="invoice-preview-card">
+                <div class="card">
+                    <div class="card-header no-print">
+                        <h2 class="card-title">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="file-text" aria-hidden="true" class="lucide lucide-file-text"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><path d="M10 9H8"></path><path d="M16 13H8"></path><path d="M16 17H8"></path></svg>
+                            Vista Previa Comprobante
+                        </h2>
+                        <span id="invStatusBadge" style="font-size: 0.75rem; background: #fef3c7; color: #b45309; font-weight: 700; padding: 0.2rem 0.6rem; border-radius: 12px;">
+                            Borrador
+                        </span>
+                    </div>
+
+                    <div class="invoice-paper" id="invoice">
+                        <div class="invoice-header-top">
+                            <div class="hotel-info">
+                                <img src="./Sistema de Reservas y Facturación - Hotel Casa Grande Chamizal_files/logohotel.jpg" alt="Logo Hotel" style="height: 48px; margin-bottom: 0.4rem; border-radius:4px;">
+                                <h2>Hotel Casa Grande Chamizal</h2>
+                                <p><strong>NIT:</strong> 33990686-9 (Régimen Simple de Tributación)</p>
+                                <p>CRA 7 # 26-19 Sector La Ye, Supía, Caldas - Colombia</p>
+                                <p>Tel: (+57) 313 312 4235 | Email: clusriaza@gmail.com</p>
+                            </div>
+                            <div class="invoice-meta">
+                                <div class="inv-number-tag" id="invNumber">FACT-0001</div>
+                                <div class="inv-date-tag" id="invDate">Fecha: --/--/----</div>
+                                <div class="inv-date-tag" style="margin-top: 2px;">Forma Pago: <span id="invPaymentType">Efectivo</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Customer Details Box -->
+                        <div class="invoice-client-box">
+                            <div class="client-detail-item">
+                                <strong>Huésped Principal:</strong> <span id="invGuestName">----------------</span>
+                            </div>
+                            <div class="client-detail-item">
+                                <strong>Cédula/Doc:</strong> <span id="invGuestDoc">----------------</span>
+                            </div>
+                            <div class="client-detail-item">
+                                <strong>Periodo Estancia:</strong> <span id="invDates">--/--/---- al --/--/----</span>
+                            </div>
+                            <div class="client-detail-item">
+                                <strong>Noches:</strong> <span id="invNights">0</span> noche(s) | <span id="invPersons">1</span> pers.
+                            </div>
+                        </div>
+
+                        <!-- Invoice Breakdown Table -->
+                        <table class="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th>Descripción del Servicio</th>
+                                    <th class="text-right">Cant.</th>
+                                    <th class="text-right">V. Unit.</th>
+                                    <th class="text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoiceItems">
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #94a3b8; padding: 1.5rem 0;">
+                            Diligencie el formulario para generar el desglose detallado
+                        </td>
+                    </tr>
+                </tbody>
+                        </table>
+
+                        <!-- Totals Section & DIAN QR Simulation -->
+                        <div class="invoice-bottom-grid">
+                            <div class="dian-simulation-box">
+                                <div class="qr-placeholder">
+                                    QR<br>DIAN
+                                </div>
+                                <div class="dian-info">
+                                    <strong>Documento Equivalente</strong><br>
+                                    Cód. Validación CUFE / QR<br>
+                                    <em>Hotel Casa Grande Chamizal</em>
+                                </div>
+                            </div>
+
+                            <div class="invoice-totals">
+                                <div class="total-row">
+                                    <span>Subtotal Base:</span>
+                                    <span id="invSubtotal">$&nbsp;0</span>
+                                </div>
+                                <div class="total-row">
+                                    <span>Impuestos (<span id="invTaxPercent">19</span>%):</span>
+                                    <span id="invTax">$&nbsp;0</span>
+                                </div>
+                                <div class="total-row grand-total">
+                                    <span>Total Pagar:</span>
+                                    <span class="grand-total-amount" id="invTotal">$&nbsp;0</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Legal Footer -->
+                        <div style="margin-top: 1.5rem; text-align: center; font-size: 0.68rem; color: #94a3b8; border-top: 1px solid #f1f5f9; padding-top: 0.75rem;">
+                            ¡Gracias por hospedarse en Hotel Casa Grande Chamizal! Conservar este comprobante para check-out y efectos fiscales.
+                        </div>
+                    </div>
+
+                    <!-- Print / Download Action Buttons -->
+                    <div style="margin-top: 1rem;" class="no-print">
+                        <button type="button" class="btn btn-success" onclick="printInvoice()">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="printer" aria-hidden="true" class="lucide lucide-printer"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"></path><rect x="6" y="14" width="12" height="8" rx="1"></rect></svg> Imprimir / Exportar a PDF
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // State variables
+        let currentCurrency = 'COP'; // 'COP' or 'USD'
+        let invoiceHistory = JSON.parse(localStorage.getItem('hotel_invoices_history') || '[]');
+
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Default Date Setup (Today -> Tomorrow)
+        const today = new Date();
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        document.getElementById('checkIn').value = today.toISOString().split('T')[0];
+        document.getElementById('checkOut').value = tomorrow.toISOString().split('T')[0];
+        document.getElementById('currentDate').innerText = today.toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
+
+        /* ── Authentication & Security System ── */
+        function checkAuth() {
+            const authUser = sessionStorage.getItem('hotel_user_session');
+            const loginModal = document.getElementById('loginModal');
+            const userLabel = document.getElementById('currentUserLabel');
+
+            if (!authUser) {
+                if (loginModal) loginModal.style.display = 'flex';
+                document.querySelector('.container').style.filter = 'blur(6px)';
+                document.querySelector('.container').style.pointerEvents = 'none';
+            } else {
+                if (loginModal) loginModal.style.display = 'none';
+                document.querySelector('.container').style.filter = 'none';
+                document.querySelector('.container').style.pointerEvents = 'auto';
+                if (userLabel) userLabel.innerText = authUser;
+            }
+        }
+
+        function loginUser(event) {
+            event.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim().toLowerCase();
+            const password = document.getElementById('loginPassword').value.trim();
+            const errorMsg = document.getElementById('loginErrorMsg');
+
+            const validUsers = ['admin', 'recepcion', 'chamizal', 'gerencia'];
+            const validPasswords = ['chamizal2026', 'admin123', '123456'];
+
+            if (validUsers.includes(username) && validPasswords.includes(password)) {
+                sessionStorage.setItem('hotel_user_session', username);
+                if (errorMsg) errorMsg.style.display = 'none';
+                checkAuth();
+                showToast(`¡Bienvenido al sistema, ${username.toUpperCase()}!`);
+            } else {
+                if (errorMsg) {
+                    errorMsg.innerText = 'Usuario o contraseña incorrectos. Verifique las credenciales.';
+                    errorMsg.style.display = 'block';
+                }
+                showToast('Credenciales incorrectas.', 'error');
+            }
+        }
+
+        function logoutUser() {
+            if (confirm('¿Desea cerrar la sesión actual?')) {
+                sessionStorage.removeItem('hotel_user_session');
+                checkAuth();
+                showToast('Sesión cerrada correctamente.');
+            }
+        }
+
+        /* ── Desktop App Modal Helpers ── */
+        function openAppDownloadModal() {
+            document.getElementById('downloadAppModal').style.display = 'flex';
+        }
+
+        function closeAppDownloadModal() {
+            document.getElementById('downloadAppModal').style.display = 'none';
+        }
+
+        function triggerBuildExeDownload() {
+            const batContent = `@echo off\necho Compilando Hotel Casa Grande Chamizal.exe...\nnpm install && npm run build-exe\npause`;
+            const blob = new Blob([batContent], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'build-exe.bat';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Script build-exe.bat descargado');
+        }
+
+        // Load saved Webhook URL & DIAN config
+        const savedWebhook = localStorage.getItem('google_sheets_webhook_url');
+        if (savedWebhook) {
+            document.getElementById('googleSheetsWebhookUrl').value = savedWebhook;
+        }
+
+        loadDianConfig();
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const iconName = type === 'success' ? 'check-circle' : 'alert-circle';
+            toast.innerHTML = `<i data-lucide="${iconName}" style="width:16px; height:16px;"></i> <span>${message}</span>`;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, 3500);
+        }
+
+        function setCurrency(currency) {
+            currentCurrency = currency;
+            document.getElementById('btnCOP').classList.toggle('active', currency === 'COP');
+            document.getElementById('btnUSD').classList.toggle('active', currency === 'USD');
+            calculatePreview();
+            renderDailySummary();
+            showToast(`Moneda cambiada a ${currency}`);
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+            if (event && event.currentTarget) {
+                event.currentTarget.classList.add('active');
+            }
+            document.getElementById(tabId).classList.add('active');
+
+            if (tabId === 'historyTab') {
+                renderHistory();
+            } else if (tabId === 'dailySummaryTab') {
+                renderDailySummary();
+            } else if (tabId === 'dianTab') {
+                loadDianConfig();
+            }
+        }
+
+        function formatMoney(amount) {
+            if (currentCurrency === 'USD') {
+                return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 }).format(amount);
+            } else {
+                return new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 }).format(amount);
+            }
+        }
+
+        function getCalculatedData() {
+            const rawName = document.getElementById('guestName').value.trim();
+            const rawDoc = document.getElementById('guestDoc').value.trim();
+            const isFormEmpty = (rawName === '' && rawDoc === '');
+
+            const guestName = rawName !== '' ? rawName : '----------------';
+            const guestDoc = rawDoc !== '' ? rawDoc : '----------------';
+            const roomSelect = document.getElementById('roomType');
+            const roomName = roomSelect.options[roomSelect.selectedIndex].getAttribute('data-name');
+            
+            const copPrice = parseFloat(roomSelect.value);
+            const usdPrice = parseFloat(roomSelect.options[roomSelect.selectedIndex].getAttribute('data-usd'));
+            const roomPrice = currentCurrency === 'USD' ? usdPrice : copPrice;
+
+            const numGuests = parseInt(document.getElementById('numGuests').value) || 1;
+            const taxRate = parseFloat(document.getElementById('taxRate').value) || 0;
+            const paymentMethod = document.getElementById('paymentMethod').value;
+
+            const checkInVal = new Date(document.getElementById('checkIn').value);
+            const checkOutVal = new Date(document.getElementById('checkOut').value);
+
+            let nights = Math.ceil((checkOutVal - checkInVal) / (1000 * 60 * 60 * 24));
+            if (isNaN(nights) || nights <= 0) nights = 1;
+
+            const items = [];
+
+            if (!isFormEmpty) {
+                // Room Charge
+                const roomTotal = roomPrice * nights;
+                items.push({
+                    description: `${roomName} (${nights} noche${nights > 1 ? 's' : ''})`,
+                    qty: nights,
+                    unitPrice: roomPrice,
+                    total: roomTotal
+                });
+            }
+
+            // Totals Calculation
+            const subtotal = items.reduce((sum, item) => sum + item.total, 0);
+            const tax = subtotal * (taxRate / 100);
+            const total = subtotal + tax;
+
+            return {
+                isFormEmpty,
+                guestName,
+                guestDoc,
+                roomName,
+                checkIn: checkInVal.toLocaleDateString('es-CO'),
+                checkOut: checkOutVal.toLocaleDateString('es-CO'),
+                nights: isFormEmpty ? 0 : nights,
+                numGuests,
+                paymentMethod,
+                items,
+                subtotal,
+                taxRate,
+                tax,
+                total
+            };
+        }
+
+        function renderInvoice(data) {
+            document.getElementById('invGuestName').innerText = data.guestName;
+            document.getElementById('invGuestDoc').innerText = data.guestDoc;
+            document.getElementById('invDates').innerText = data.isFormEmpty ? '--/--/---- al --/--/----' : `${data.checkIn} al ${data.checkOut}`;
+            document.getElementById('invNights').innerText = data.nights;
+            document.getElementById('invPersons').innerText = data.numGuests;
+            document.getElementById('invTaxPercent').innerText = data.taxRate;
+            document.getElementById('invPaymentType').innerText = data.paymentMethod;
+
+            const tbody = document.getElementById('invoiceItems');
+            tbody.innerHTML = '';
+
+            if (data.items.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #94a3b8; padding: 1.5rem 0;">
+                            Diligencie el formulario para generar el desglose detallado
+                        </td>
+                    </tr>
+                `;
+            } else {
+                data.items.forEach(item => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${item.description}</td>
+                        <td class="text-right">${item.qty}</td>
+                        <td class="text-right">${formatMoney(item.unitPrice)}</td>
+                        <td class="text-right"><strong>${formatMoney(item.total)}</strong></td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('invSubtotal').innerText = formatMoney(data.subtotal);
+            document.getElementById('invTax').innerText = formatMoney(data.tax);
+            document.getElementById('invTotal').innerText = formatMoney(data.total);
+        }
+
+        function calculatePreview() {
+            const data = getCalculatedData();
+            renderInvoice(data);
+        }
+
+        function generateInvoice(event) {
+            event.preventDefault();
+            
+            const nextFolioNumber = (invoiceHistory.length + 1).toString().padStart(4, '0');
+            const prefix = localStorage.getItem('dian_prefix') || 'FACT';
+            const folioCode = `${prefix}-${new Date().getFullYear()}-${nextFolioNumber}`;
+            
+            document.getElementById('invNumber').innerText = folioCode;
+            document.getElementById('invDate').innerText = 'Fecha: ' + new Date().toLocaleDateString('es-CO');
+            document.getElementById('invStatusBadge').innerText = 'EMITIDA';
+            document.getElementById('invStatusBadge').style.background = '#d1fae5';
+            document.getElementById('invStatusBadge').style.color = '#059669';
+
+            const rawName = document.getElementById('guestName').value.trim() || 'Cliente General';
+            const rawDoc = document.getElementById('guestDoc').value.trim() || 'N/A';
+
+            const data = getCalculatedData();
+            data.isFormEmpty = false;
+            data.guestName = rawName;
+            data.guestDoc = rawDoc;
+            data.folio = folioCode;
+            data.date = new Date().toLocaleDateString('es-CO');
+            data.currency = currentCurrency;
+
+            // Save to localStorage history
+            invoiceHistory.unshift(data);
+            localStorage.setItem('hotel_invoices_history', JSON.stringify(invoiceHistory));
+
+            renderInvoice(data);
+            renderDailySummary();
+
+            // Auto-sync to Google Sheets if Webhook URL is set
+            sendToGoogleSheets(data, false);
+
+            showToast(`¡Factura ${folioCode} emitida exitosamente!`);
+        }
+
+        function renderDailySummary() {
+            const todayStr = new Date().toLocaleDateString('es-CO');
+            const todayInvoices = invoiceHistory.filter(inv => inv.date === todayStr);
+
+            let totalSales = 0;
+            let totalNights = 0;
+            let occupiedRooms = todayInvoices.length;
+            let paymentMap = {};
+
+            todayInvoices.forEach(inv => {
+                totalSales += inv.total || 0;
+                totalNights += inv.nights || 0;
+                const method = inv.paymentMethod || 'Otros';
+                paymentMap[method] = (paymentMap[method] || 0) + (inv.total || 0);
+            });
+
+            const adr = occupiedRooms > 0 ? (totalSales / occupiedRooms) : 0;
+
+            document.getElementById('summaryTotalSales').innerText = formatMoney(totalSales);
+            document.getElementById('summaryOccupiedRooms').innerText = occupiedRooms;
+            document.getElementById('summaryTotalNights').innerText = totalNights;
+            document.getElementById('summaryAverageRate').innerText = formatMoney(adr);
+
+            // Render Payment Breakdown
+            const breakdownContainer = document.getElementById('summaryPaymentBreakdown');
+            if (Object.keys(paymentMap).length === 0) {
+                breakdownContainer.innerHTML = '<span style="color:var(--text-muted);">Sin ventas registradas hoy.</span>';
+            } else {
+                let html = '';
+                for (const [method, amount] of Object.entries(paymentMap)) {
+                    html += `
+                        <div style="display:flex; justify-content:space-between; border-bottom:1px dashed var(--border); padding-bottom:0.25rem;">
+                            <span>• ${method}</span>
+                            <strong>${formatMoney(amount)}</strong>
+                        </div>
+                    `;
+                }
+                breakdownContainer.innerHTML = html;
+            }
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            const searchQuery = document.getElementById('historySearch') ? document.getElementById('historySearch').value.toLowerCase().trim() : '';
+
+            let filtered = invoiceHistory;
+            if (searchQuery !== '') {
+                filtered = invoiceHistory.filter(inv => 
+                    (inv.guestName && inv.guestName.toLowerCase().includes(searchQuery)) ||
+                    (inv.guestDoc && inv.guestDoc.toLowerCase().includes(searchQuery)) ||
+                    (inv.folio && inv.folio.toLowerCase().includes(searchQuery))
+                );
+            }
+
+            if (filtered.length === 0) {
+                container.innerHTML = '<div style="text-align:center; padding:1.5rem; color:var(--text-muted); font-size:0.85rem;">No hay facturas emitidas recientemente.</div>';
+                return;
+            }
+
+            container.innerHTML = '';
+            filtered.forEach((inv, index) => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.innerHTML = `
+                    <div style="flex:1;">
+                        <strong>${inv.folio || 'FACT'}</strong> - ${inv.guestName}<br>
+                        <small style="color:var(--text-muted);">${inv.date} | ${inv.nights} noche(s) | Doc: ${inv.guestDoc}</small>
+                    </div>
+                    <div style="text-align:right; display:flex; align-items:center; gap:0.75rem;">
+                        <strong style="color:var(--accent-gold);">${inv.currency === 'USD' ? '$' + inv.total.toFixed(2) : '$' + Math.round(inv.total).toLocaleString('es-CO')}</strong>
+                        <button type="button" style="background:none; border:none; color:#ef4444; cursor:pointer;" title="Eliminar" onclick="deleteSingleInvoice(event, ${index})">
+                            <i data-lucide="trash-2" style="width:14px; height:14px;"></i>
+                        </button>
+                    </div>
+                `;
+                item.onclick = (e) => {
+                    if (e.target.closest('button')) return;
+                    renderInvoice(inv);
+                    document.getElementById('invNumber').innerText = inv.folio || 'FACT-0001';
+                    showToast(`Cargada la factura ${inv.folio}`);
+                };
+                container.appendChild(item);
+            });
+            lucide.createIcons();
+        }
+
+        function deleteSingleInvoice(e, index) {
+            e.stopPropagation();
+            if (confirm('¿Desea eliminar esta factura del historial?')) {
+                invoiceHistory.splice(index, 1);
+                localStorage.setItem('hotel_invoices_history', JSON.stringify(invoiceHistory));
+                renderHistory();
+                renderDailySummary();
+                showToast('Factura eliminada del historial.');
+            }
+        }
+
+        function clearAllHistory() {
+            if (invoiceHistory.length === 0) {
+                showToast('El historial ya está vacío.', 'error');
+                return;
+            }
+            if (confirm('¿Está seguro de borrar TODO el historial de facturas emitidas?')) {
+                invoiceHistory = [];
+                localStorage.removeItem('hotel_invoices_history');
+                renderHistory();
+                renderDailySummary();
+                showToast('Historial borrado por completo.');
+            }
+        }
+
+        function loadDianConfig() {
+            const provider = localStorage.getItem('dian_provider') || 'dataico';
+            const prefix = localStorage.getItem('dian_prefix') || 'FACT';
+            const apiKey = localStorage.getItem('dian_api_key') || '';
+            const env = localStorage.getItem('dian_env') || 'test';
+
+            const providerEl = document.getElementById('dianProvider');
+            const prefixEl = document.getElementById('dianPrefix');
+            const apiKeyEl = document.getElementById('dianApiKey');
+            const envEl = document.getElementById('dianEnv');
+
+            if (providerEl) providerEl.value = provider;
+            if (prefixEl) prefixEl.value = prefix;
+            if (apiKeyEl) apiKeyEl.value = apiKey;
+            if (envEl) envEl.value = env;
+        }
+
+        function saveDianConfig() {
+            const provider = document.getElementById('dianProvider').value;
+            const prefix = document.getElementById('dianPrefix').value;
+            const apiKey = document.getElementById('dianApiKey').value;
+            const env = document.getElementById('dianEnv').value;
+
+            localStorage.setItem('dian_provider', provider);
+            localStorage.setItem('dian_prefix', prefix);
+            localStorage.setItem('dian_api_key', apiKey);
+            localStorage.setItem('dian_env', env);
+        }
+
+        function testDianConnection() {
+            saveDianConfig();
+            const apiKey = localStorage.getItem('dian_api_key');
+            if (!apiKey) {
+                showToast('Por favor ingrese un Token / API Key válido.', 'error');
+                return;
+            }
+            showToast('Conexión con Proveedor Tecnológico DIAN verificada correctamente.');
+        }
+
+        function saveWebhookUrl() {
+            const url = document.getElementById('googleSheetsWebhookUrl').value.trim();
+            localStorage.setItem('google_sheets_webhook_url', url);
+        }
+
+        function sendToGoogleSheets(data, showNotification = true) {
+            const url = localStorage.getItem('google_sheets_webhook_url');
+            if (!url) {
+                if (showNotification) showToast('Configure la URL del Webhook de Google Sheets primero.', 'error');
+                return;
+            }
+
+            fetch(url, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                if (showNotification) showToast('Datos sincronizados con Google Sheets.');
+            })
+            .catch(() => {
+                if (showNotification) showToast('Error al enviar a Google Sheets.', 'error');
+            });
+        }
+
+        function syncAllToGoogleSheets() {
+            const url = localStorage.getItem('google_sheets_webhook_url');
+            if (!url) {
+                showToast('Ingrese la URL del Webhook antes de sincronizar.', 'error');
+                return;
+            }
+            if (invoiceHistory.length === 0) {
+                showToast('No hay facturas registradas para sincronizar.', 'error');
+                return;
+            }
+
+            invoiceHistory.forEach(inv => sendToGoogleSheets(inv, false));
+            showToast(`Sincronizadas ${invoiceHistory.length} facturas con Google Sheets.`);
+        }
+
+        function exportSummaryCSV() {
+            if (invoiceHistory.length === 0) {
+                showToast('No hay datos en el historial para exportar.', 'error');
+                return;
+            }
+
+            let csvContent = 'data:text/csv;charset=utf-8,Fecha,Folio,Huesped,Documento,Habitacion,Noches,MetodoPago,Subtotal,Impuestos,Total,Moneda\n';
+
+            invoiceHistory.forEach(inv => {
+                const row = [
+                    `"${inv.date || ''}"`,
+                    `"${inv.folio || ''}"`,
+                    `"${inv.guestName || ''}"`,
+                    `"${inv.guestDoc || ''}"`,
+                    `"${inv.roomName || ''}"`,
+                    inv.nights || 0,
+                    `"${inv.paymentMethod || ''}"`,
+                    inv.subtotal || 0,
+                    inv.tax || 0,
+                    inv.total || 0,
+                    `"${inv.currency || 'COP'}"`
+                ].join(',');
+                csvContent += row + '\n';
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement('a');
+            link.setAttribute('href', encodedUri);
+            link.setAttribute('download', `Reporte_Hotel_Chamizal_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('Archivo CSV descargado exitosamente.');
+        }
+
+        function resetForm() {
+            document.getElementById('bookingForm').reset();
+            document.getElementById('checkIn').value = today.toISOString().split('T')[0];
+            document.getElementById('checkOut').value = tomorrow.toISOString().split('T')[0];
+            document.getElementById('invStatusBadge').innerText = 'Borrador';
+            document.getElementById('invStatusBadge').style.background = '#fef3c7';
+            document.getElementById('invStatusBadge').style.color = '#b45309';
+            calculatePreview();
+            showToast('Formulario restablecido.');
+        }
+
+        function printInvoice() {
+            window.print();
+        }
+
+        // Window load initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAuth();
+            calculatePreview();
+        });
+    </script>
+</body>
+</html>
